@@ -1,13 +1,17 @@
 package com.example.midterm_rohan_puri;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Set;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -25,7 +29,14 @@ public class DetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-        Intent intent = getIntent();
-        String num = intent.getStringExtra("num");
+        TextView textView = findViewById(R.id.textView);
+
+        Set<Integer> numHistory = (Set<Integer>) getIntent().getSerializableExtra("numHistory");
+
+        if (!numHistory.isEmpty()) {
+            textView.setText(numHistory.toString());
+        } else {
+            textView.setText(R.string.no_history);
+        }
     }
 }
