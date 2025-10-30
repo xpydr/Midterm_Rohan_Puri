@@ -2,9 +2,6 @@ package com.example.midterm_rohan_puri;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +9,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_details);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -28,14 +25,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        EditText numInput = findViewById(R.id.numInput);
-        Button history = findViewById(R.id.history);
-
-        history.setOnClickListener(view -> {
-            Intent intent = new Intent(this, DetailsActivity.class);
-            int num = Integer.parseInt(numInput.getText().toString());
-            intent.putExtra("num", num);
-            startActivity(intent);
-        });
+        Intent intent = getIntent();
+        String num = intent.getStringExtra("num");
     }
 }

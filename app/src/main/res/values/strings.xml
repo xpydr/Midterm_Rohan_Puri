@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Midterm_Rohan_Puri</string>
+    <string name="generate">Generate</string>
+    <string name="enter_a_number">Enter a number</string>
+    <string name="history">History</string>
 </resources>
