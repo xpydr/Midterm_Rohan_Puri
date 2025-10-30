@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     .setMessage("Delete " + item + "?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         table.remove(position);
+                        Toast.makeText(this, "Deleted: " + item, Toast.LENGTH_SHORT).show();
                         adapter.notifyDataSetChanged();
                     })
                     .setNegativeButton("No", null)
