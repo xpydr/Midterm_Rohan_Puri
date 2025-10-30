@@ -2,15 +2,24 @@ package com.example.midterm_rohan_puri;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,12 +39,41 @@ public class MainActivity extends AppCompatActivity {
 
         EditText numInput = findViewById(R.id.numInput);
         Button history = findViewById(R.id.history);
+        Button generate = findViewById(R.id.generate);
+        ListView listView = findViewById(R.id.listView);
+
+        Set<Integer> numHistory = new HashSet<>();
 
         history.setOnClickListener(view -> {
             Intent intent = new Intent(this, DetailsActivity.class);
-            int num = Integer.parseInt(numInput.getText().toString());
-            intent.putExtra("num", num);
+            intent.putExtra("numHistory", (Serializable) numHistory);
             startActivity(intent);
         });
+
+        generate.setOnClickListener(view -> {
+            String input = numInput.getText().toString().trim();
+            if (input.isEmpty()) {
+                Toast.makeText(this, "Please enter a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int num = Integer.parseInt(input);
+            numHistory.add(num);
+            List<String> table = getTable(num);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    table
+            );
+            listView.setAdapter(adapter);
+        });
+    }
+
+    private List<String> getTable(int num) {
+        List<String> table = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            table.add(num + " x " + i + " = " + (num * i));
+        }
+        return table;
     }
 }
