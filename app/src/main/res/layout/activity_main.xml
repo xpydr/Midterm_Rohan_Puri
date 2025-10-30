@@ -15,18 +15,28 @@
         app:layout_constraintTop_toBottomOf="@id/numInput"
         app:layout_constraintEnd_toStartOf="@id/history"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:layout_margin="16dp" />
+        app:layout_constraintHorizontal_chainStyle="spread"
+        android:layout_margin="4dp" />
 
     <Button
         android:id="@+id/history"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/history"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/clearAll"
         app:layout_constraintStart_toEndOf="@id/generate"
         app:layout_constraintTop_toBottomOf="@id/numInput"
-        android:layout_margin="16dp" />
+        android:layout_margin="4dp" />
+
+    <Button
+        android:id="@+id/clearAll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/history"
+        app:layout_constraintTop_toBottomOf="@id/numInput"
+        android:layout_margin="4dp" />
 
     <EditText
         android:id="@+id/numInput"
