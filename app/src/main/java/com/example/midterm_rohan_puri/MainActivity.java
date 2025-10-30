@@ -1,20 +1,18 @@
 package com.example.midterm_rohan_puri;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,12 +21,16 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
+    private List<String> table = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
+    private ListView listview;
+    private Set<Integer> numHistory = new HashSet<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-
         setContentView(R.layout.activity_main);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -42,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
         Button generate = findViewById(R.id.generate);
         ListView listView = findViewById(R.id.listView);
 
-        Set<Integer> numHistory = new HashSet<>();
+        adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                table
+        );
+        listView.setAdapter(adapter);
 
         history.setOnClickListener(view -> {
             Intent intent = new Intent(this, DetailsActivity.class);
@@ -59,13 +66,22 @@ public class MainActivity extends AppCompatActivity {
 
             int num = Integer.parseInt(input);
             numHistory.add(num);
-            List<String> table = getTable(num);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    table
-            );
-            listView.setAdapter(adapter);
+            table.clear();
+            table.addAll(getTable(num));
+            adapter.notifyDataSetChanged();
+        });
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String item = table.get(position);
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Row")
+                    .setMessage("Delete " + item + "?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        table.remove(position);
+                        adapter.notifyDataSetChanged();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         });
     }
 
