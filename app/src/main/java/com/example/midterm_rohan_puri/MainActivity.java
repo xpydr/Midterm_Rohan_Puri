@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> table = new ArrayList<>();
     private ArrayAdapter<String> adapter;
-    private ListView listview;
     private Set<Integer> numHistory = new HashSet<>();
 
     @Override
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         EditText numInput = findViewById(R.id.numInput);
         Button history = findViewById(R.id.history);
         Button generate = findViewById(R.id.generate);
+        Button clearAll = findViewById(R.id.clearAll);
         ListView listView = findViewById(R.id.listView);
 
         adapter = new ArrayAdapter<>(
@@ -83,6 +83,24 @@ public class MainActivity extends AppCompatActivity {
                     })
                     .setNegativeButton("No", null)
                     .show();
+        });
+
+        clearAll.setOnClickListener(view -> {
+            if (!table.isEmpty()) {
+                new AlertDialog.Builder(this)
+                    .setTitle("Clear All")
+                    .setMessage("Delete all rows?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        table.clear();
+                        adapter.notifyDataSetChanged();
+//                      numHistory.clear();
+                        Toast.makeText(this, "All rows cleared", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+            } else {
+                Toast.makeText(this, "No rows to clear", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
